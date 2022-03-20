@@ -1,0 +1,207 @@
+html {
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    padding: 0;
+    color: white;
+    background-color: #254525;
+    font-family: calibri, sans-serif;
+}
+
+#header {
+    width: 80%;
+    height: 4vh;
+    margin: 0 auto;
+    padding: 1vh 0 3vh 0;
+    color: #254525;
+    background-color: #8f8;
+    text-align: center;
+}
+
+#header h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    width: 90%;
+    margin: 4vh auto 0 auto;
+    padding: 0;
+    height: 75vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+#sidebar {
+    width: 14%;
+    float: left;
+    padding: 6px 24px;
+    color: #254525;
+    background-color: #8f8;
+}
+
+#menu {
+    margin-bottom: 4vh;
+}
+
+#menu h2 {
+    margin: 6px 0;
+    padding: 0;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-family: calibri, sans-serif;
+    font-size: 24px;
+    line-height: 180%;
+}
+
+#menu ul a {
+    color: #254525;
+}
+
+#practice-log h2 {
+    margin: 6px 0;
+    padding: 0;
+}
+
+.sesh {
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    color: white;
+    background-color: #254525;
+    line-height: 120%;
+}
+
+.sesh h3 {
+    margin: 6px 0;
+}
+
+.sesh p {
+    margin: 6px 0;
+}
+
+#songlist {
+    width: 80%;
+    height: 75vh;
+}
+
+#songlist a, #songlist a:visited {
+    text-decoration: none;
+    color: #eee;
+}
+
+#songlist ul {
+    font-family: calibri, sans-serif;
+    list-style-type: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column wrap;
+    column-gap: 12px;
+}
+
+#songlist ul a:hover {
+    color: #bbb;
+}
+
+#songlist ul li {
+    display: block;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    margin-top: -1px;
+    padding: 6px;
+}
+
+#data {
+    width: 80%;
+    height: 8vh;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0.5vh 12px;
+    background-color: #fa0;
+}
+
+#data h2, #data h3, #data h4 {
+    margin: 0;
+    padding: 0;
+}
+
+#data h2 {
+    text-align: center;
+    font-size: 3vh;
+}
+
+#data h3 {
+    text-align: right;
+    font-size: 2vh;
+}
+
+#data h4 {
+    text-align: left;
+    font-size: 2vh;
+    width: 20%;
+    float: left;
+}
+
+a, a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+#edit_song {
+    position: absolute;
+    right: 9%;
+    top: 10vh;
+    font-family: calibri, sans-serif;
+}
+
+#song {
+    height: 88vh;
+    margin: 0 auto;
+    margin-top: 2vh;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    flex-flow: column wrap;
+    align-content: flex-start;
+}
+
+#song pre {
+    margin: 0;
+    padding: 0;
+    line-height: 80%;
+    font-family: source code pro, monospace;
+}
+
+#new_song_attributes, #practice_attributes {
+    width: 80%;
+    margin: 0 auto;
+}
+
+form {
+    margin: 24px;
+    font-size: 24px;
+    font-family: calibri;
+    color: white;
+}
+
+form input, form select {
+    width: 40%;
+    margin: 6px 0 12px 0;
+    padding: 8px;
+    font-size: 24px;
+    font-family: calibri;
+}
+
+form [type=submit] {
+    width: 40%;
+    margin-top: 24px;
+}

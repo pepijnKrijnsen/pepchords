@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div id="header">
+    <h1>pepchords - practice & performance</h1>
+</div>
+
+<div id="container">
+    <div id="sidebar">
+
+        <div id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="{{ url_for("addNewSong") }}">add a song</a></li>
+                <li><a href="{{ url_for("logPractice") }}">log practice</a></li>
+            </ul>
+        </div>
+        
+        <div id="practice-log">
+            <h2>Practice</h2>
+            {% for session in practice_sessions %}
+            <div class="sesh">
+                <h3>{{ session["type"] }}</h3>
+                <p>Start: {{ session["start"] }}</p>
+                <p>End: {{ session["end"] }}</p>
+                <p>Counts for: {{ session["duration"] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div id="songlist">
+        <ul>
+        {% for song in songlist %}
+        <a href="{{ url_for("getSong", uid = song["url"]) }}">
+            <li>
+                {{ song["artist"] }}<br />{{ song["title"] }}
+            </li>
+        </a>
+        {% endfor %}
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
