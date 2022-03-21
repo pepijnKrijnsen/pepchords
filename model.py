@@ -1,11 +1,11 @@
 from os import (path, system)
 
 def buildSonglist():
-    keys = ["id", "artist", "title", "url"]
+    keys = ["id", "artist", "title", "uid"]
     values = _getSongValues()
     songlist = [ dict(zip(keys, line.split(","))) for line in values ]
     songlist = _filterScaryChars(songlist)
-    songlist.sort(key = lambda v: v["url"])
+    songlist.sort(key = lambda v: v["uid"])
     return songlist
 
 def _getSongValues():
@@ -13,26 +13,35 @@ def _getSongValues():
         values = songs.read().split("\n")
     return values
 
-def _filterScaryChars(list):
-    for v in list:
-        v["url"] = v["url"].replace("'", "")
-        v["url"] = v["url"].replace("á", "a")
-        v["url"] = v["url"].replace("é", "e")
-        v["url"] = v["url"].replace("ï", "i")
-        v["url"] = v["url"].replace("&-", "")
-    return list
+def _filterScaryChars(songlist):
+    for el in songlist:
+        el["uid"] = el["uid"].replace("'", "")
+        el["uid"] = el["uid"].replace("á", "a")
+        el["uid"] = el["uid"].replace("é", "e")
+        el["uid"] = el["uid"].replace("ï", "i")
+        el["uid"] = el["uid"].replace("&-", "")
+    return songlist
 
 def findSong(uid):
     song_path = "songs/" + uid
-    if path.isfile(song_path):
-        songObject = _readSong(song_path)
+    if not path.isfile(song_path):
+        return False
     else:
-        songObject = song_path
-    return songObject
+        return _readSong(song_path)
 
 def _readSong(path):
     with open(path) as f:
         return f.read()
+
+def parseSong(songObject):
+    items = songObject.split("\n\n")
+    song = dict()
+    keys = ["title", "artist", "metadata"]
+    for k in keys:
+        song[k] = items.pop(0)
+    song["metadata"] = song["metadata"].split("\n")
+    song["chords_lyrics"] = [ x.split("\n") for x in items ]
+    return song
 
 def createNewSong(song_object):
     with open(song_object, "w") as f:

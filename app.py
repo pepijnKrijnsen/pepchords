@@ -3,42 +3,27 @@ from flask import (
         )
 
 from model import (
-        buildSonglist, findSong, createNewSong
+        buildSonglist, findSong, createNewSong, parseSong
         )
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    practice_sessions = [
-            {
-                "type": "Repetition",
-                "start": 48000,
-                "end": 48600,
-                "duration": 600
-                },
-            {
-                "type": "Stream",
-                "start": 36000,
-                "end": 43200,
-                "duration": 3600
-                }
-            ]
-    return render_template("index.html", 
-            songlist = buildSonglist(), 
-            practice_sessions = practice_sessions)
+    return render_template("index.html", songlist = buildSonglist())
 
 @app.route("/play/<uid>")
 def getSong(uid):
     song_object = findSong(uid)
-    if song_object[:5] == "songs":
-        createNewSong(song_object)
-        return redirect(url_for("index"))
-    else:
+    if song_object:
         # read the song file and create a dictionary
         song = parseSong(song_object)
         song["url"] = uid
         return render_template("song.html", song = song)
+    else:
+        # create a new song file
+        createNewSong(uid)
+        return redirect(url_for("index"))
 
 @app.route("/edit/<uid>")
 def edit(uid):
@@ -66,15 +51,6 @@ def savePracticeLog():
     # persistence!
     return redirect(url_for("index"))
 
-def parseSong(songObject):
-    items = songObject.split("\n\n")
-    song = dict()
-    keys = ["title", "artist", "metadata"]
-    for k in keys:
-        song[k] = items.pop(0)
-    song["metadata"] = song["metadata"].split("\n")
-    song["chords_lyrics"] = [ x.split("\n") for x in items ]
-    return song
 
 def newSongToCsv():
     pass

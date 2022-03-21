@@ -16,24 +16,12 @@
             </ul>
         </div>
         
-        <div id="practice-log">
-            <h2>Practice</h2>
-            {% for session in practice_sessions %}
-            <div class="sesh">
-                <h3>{{ session["type"] }}</h3>
-                <p>Start: {{ session["start"] }}</p>
-                <p>End: {{ session["end"] }}</p>
-                <p>Counts for: {{ session["duration"] }}</p>
-            </div>
-            {% endfor %}
-        </div>
-
     </div>
 
     <div id="songlist">
         <ul>
         {% for song in songlist %}
-        <a href="{{ url_for("getSong", uid = song["url"]) }}">
+        <a href="{{ url_for("getSong", uid = song["uid"]) }}">
             <li>
                 {{ song["artist"] }}<br />{{ song["title"] }}
             </li>
