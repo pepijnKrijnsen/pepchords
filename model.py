@@ -39,8 +39,9 @@ def parseSong(songObject):
     keys = ["title", "artist", "metadata"]
     for k in keys:
         song[k] = items.pop(0)
+    print(items)
     song["metadata"] = song["metadata"].split("\n")
-    song["chords_lyrics"] = [ x.split("\n") for x in items ]
+    song["chords_lyrics"] = items
     return song
 
 def createNewSong(song_object):

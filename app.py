@@ -28,7 +28,11 @@ def getSong(uid):
 @app.route("/edit/<uid>")
 def edit(uid):
     return render_template("song_attributes.html",
-            song_data = getSongData(uid))
+            song = parseSong(findSong(uid)))
+
+@app.route("/save/<uid>")
+def saveEditsToSong():
+    pass #TODO
 
 @app.route("/song/new")
 def addNewSong():

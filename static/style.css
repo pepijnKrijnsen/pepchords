@@ -176,8 +176,8 @@ a, a:visited {
 
 #song pre {
     margin: 0;
-    padding: 0;
-    line-height: 80%;
+    padding: 20px 40px;
+    line-height: 135%;
     font-family: source code pro, monospace;
 }
 
@@ -202,7 +202,8 @@ form input, form select {
 }
 
 form textarea {
-    width: 40%;
+    width: 80%;
+    height: 60vh;
     margin: 6px 0 12px 0;
     padding: 8px;
     font-size: 20px;

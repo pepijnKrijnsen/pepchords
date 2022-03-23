@@ -17,11 +17,7 @@
 
 <div id="song">
     {% for el in song["chords_lyrics"] %}
-    <pre>
-        {% for line in el %}
-        {{ line }}
-        {% endfor %}
-    </pre>
+    <pre>{{ el }}</pre>
     {% endfor %}
 </div>
 <script src="{{ url_for("static", filename="zoomer.js") }}"></script>

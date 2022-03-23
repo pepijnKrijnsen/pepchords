@@ -12,14 +12,17 @@
     </div>
 </div></a>
 
-<form action={{ url_for("saveNewSong") }}>
-    <label for="title">Title:</label><br />
+<form action={{ url_for("saveEditsToSong") }}>
+    <label for="title">Title</label><br />
     <input type="text" id="title" name="title" value="{{ song["title"] }}"><br />
-    <label for="artist">Artist:</label><br />
+    <label for="artist">Artist</label><br />
     <input type="text" id="artist" name="artist" value="{{ song["artist"] }}"><br />
     <!-- parse metadata and display a label + input field -->
-    <textarea id="music_lyrics">{% for el in song["chords_lyrics"] %}{% for line in el %}{{ line }}
-{% endfor %}{% endfor %}</textarea><br />
-    <input type="submit" value="Save changes">
+    <textarea id="music_lyrics">
+{% for el in song["chords_lyrics"] %}{{ el }}
+
+{% endfor %}
+    </textarea><br />
+    <input type="submit" value="Save">
 </form>
 {% endblock %}
