@@ -3,7 +3,8 @@ from os import (path, system, listdir)
 def buildSonglist():
     songlist = []
     for song_file in listdir("songs"):
-        songlist.append(_getSongData(song_file))
+        if path.isfile(path.join("songs", song_file)):
+            songlist.append(_getSongData(song_file))
     songlist = _filterScaryChars(songlist)
     songlist.sort(key = lambda v: v["uid"])
     return songlist
@@ -44,7 +45,6 @@ def parseSong(songObject):
     keys = ["title", "artist", "metadata"]
     for k in keys:
         song[k] = items.pop(0)
-    print(items)
     song["metadata"] = song["metadata"].split("\n")
     song["chords_lyrics"] = items
     return song
