@@ -31,7 +31,7 @@ def edit(uid):
             song = parseSong(findSong(uid)))
 
 @app.route("/save/<uid>")
-def saveEditsToSong():
+def saveEditsToSong(uid):
     pass #TODO
 
 @app.route("/song/new")
