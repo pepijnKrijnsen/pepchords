@@ -19,9 +19,9 @@
         <input type="text" id="artist" name="artist" value="{{ song["artist"] }}"><br />
         <!-- parse metadata and display a label + input field -->
         <textarea id="music_lyrics">
-    {% for el in song["chords_lyrics"] %}
-    {{ el }}
-    {% endfor %}</textarea><br />
+{% for el in song["chords_lyrics"] %}
+{{ el }}
+{% endfor %}</textarea><br />
         <input type="submit" value="Save">
     </form>
 {% endblock %}
