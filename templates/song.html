@@ -6,13 +6,13 @@
     <h3>{{ song["artist"] }}</h3>
 
     <div id="meta">
-        {% for v in song["metadata"] %}
-        <h4>{{ v }}</h4>
+        {% for k in song["metadata"] %}
+        <h4>{{ k }}: {{ song["metadata"][k] }}</h4>
         {% endfor %}
     </div>
 </div></a>
 <div id="edit_song">
-    <a href="{{ url_for("edit", uid = song["url"]) }}">edit</a>
+    <a href="{{ url_for("edit", uid = song["uid"]) }}">edit</a>
 </div>
 
 <div id="song">

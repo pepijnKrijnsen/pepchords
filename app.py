@@ -3,7 +3,7 @@ from flask import (
         )
 
 from model import (
-        buildSonglist, findSong, createNewSong, parseSong
+        buildSonglist, findSong, createNewSong, parseSong, backUpSong, createSongData,
         )
 
 app = Flask(__name__)
@@ -18,7 +18,7 @@ def getSong(uid):
     if song_object:
         # read the song file and create a dictionary
         song = parseSong(song_object)
-        song["url"] = uid
+        song["uid"] = uid
         return render_template("song.html", song = song)
     else:
         # create a new song file
@@ -27,12 +27,25 @@ def getSong(uid):
 
 @app.route("/edit/<uid>")
 def edit(uid):
+    song = parseSong(findSong(uid))
+    song["uid"] = uid
     return render_template("song_attributes.html",
-            song = parseSong(findSong(uid)))
+            song = song)
 
-@app.route("/save/<uid>")
+@app.route("/save/<uid>", methods = ["POST", ])
 def saveEditsToSong(uid):
-    pass #TODO
+    # move the song file from "songs/<uid>" to "songs/backup/<uid>"
+    backUpSong(uid)
+    # write a new file "songs/<uid>" with the contents of:
+    #  - title
+    #  - artist
+    #  - Key
+    #  - Capo
+    #  - music_lyrics
+    new_file_contents = createSongData(request.form)
+    with open("songs/" + uid, "w") as song_file:
+        song_file.write(new_file_contents)
+    return redirect(url_for("index"))
 
 @app.route("/song/new")
 def addNewSong():

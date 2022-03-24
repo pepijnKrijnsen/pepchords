@@ -42,10 +42,13 @@ def _readSong(path):
 def parseSong(songObject):
     items = songObject.split("\n\n")
     song = dict()
-    keys = ["title", "artist", "metadata"]
-    for k in keys:
-        song[k] = items.pop(0)
-    song["metadata"] = song["metadata"].split("\n")
+    song["title"] = items.pop(0)
+    song["artist"] = items.pop(0)
+    song["metadata"] = dict()
+    # metadata_lines = items.pop(0).split("\n")
+    for line in items.pop(0).split("\n"):
+        pair = line.split(": ")
+        song["metadata"][pair[0]] = pair[1]
     song["chords_lyrics"] = items
     return song
 
@@ -55,5 +58,14 @@ def createNewSong(song_object):
     system("$EDITOR " + songObject + " &")
     return
 
-def getSongData(url):
-    pass
+def backUpSong(uid):
+    system("mv songs/" + uid + " songs/backup/" + uid)
+    return
+
+def createSongData(dict):
+    song_data = dict["title"] + "\n\n"
+    song_data += dict["artist"] + "\n\n"
+    song_data += "Key: " + dict["Key"] + "\n"
+    song_data += "Capo: " + dict["Capo"] + "\n\n"
+    song_data += dict["music_lyrics"]
+    return song_data
