@@ -1,17 +1,22 @@
-from os import (path, system)
+from os import (path, system, listdir)
 
 def buildSonglist():
-    keys = ["id", "artist", "title", "uid"]
-    values = _getSongValues()
-    songlist = [ dict(zip(keys, line.split(","))) for line in values ]
+    songlist = []
+    for song_file in listdir("songs"):
+        songlist.append(_getSongData(song_file))
     songlist = _filterScaryChars(songlist)
     songlist.sort(key = lambda v: v["uid"])
     return songlist
 
-def _getSongValues():
-    with open("songlist.csv") as songs:
-        values = songs.read().split("\n")
-    return values
+def _getSongData(name):
+    song_data = dict()
+    path = "songs/" + name
+    with open(path) as song_file:
+        song = song_file.readlines()
+    song_data["title"] = song[0]
+    song_data["artist"] = song[2]
+    song_data["uid"] = name
+    return song_data
 
 def _filterScaryChars(songlist):
     for el in songlist:
