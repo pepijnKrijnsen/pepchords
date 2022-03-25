@@ -3,7 +3,7 @@
 {% block body %}
     <a href="{{ url_for("index") }}"><div id="data">
         <h2>{{ song["title"] }}</h2>
-        <h3>{{ song["uid"] }}</h3>
+        <h3>{{ song["artist"] }}</h3>
 
         <div id="meta">
             {% for key in song["metadata"] %}
@@ -28,10 +28,7 @@
                         value="{{ song["metadata"][key] }}">
             {% endfor %}
         </div>
-        <textarea id="music_lyrics" name="music_lyrics">
-{% for el in song["chords_lyrics"] %}
-{{ el }}
-{% endfor %}</textarea><br />
+        <textarea id="music_lyrics" name="music_lyrics">{{song["music_lyrics_string"]}}</textarea><br />
         <input type="submit" value="Save">
     </form>
 {% endblock %}

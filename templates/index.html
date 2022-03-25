@@ -21,7 +21,7 @@
     <div id="songlist">
         <ul>
         {% for song in songlist %}
-        <a href="{{ url_for("getSong", uid = song["uid"]) }}">
+        <a href="{{ url_for("showSong", uid = song["uid"]) }}">
             <li>
                 {{ song["artist"] }}<br />{{ song["title"] }}
             </li>

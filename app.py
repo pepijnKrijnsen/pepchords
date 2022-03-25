@@ -3,7 +3,8 @@ from flask import (
         )
 
 from model import (
-        buildSonglist, findSong, createNewSong, parseSong, backUpSong, createSongData,
+        buildSonglist, getSong, createNewSong, backUpSong, 
+        createSongData
         )
 
 app = Flask(__name__)
@@ -13,22 +14,12 @@ def index():
     return render_template("index.html", songlist = buildSonglist())
 
 @app.route("/play/<uid>")
-def getSong(uid):
-    song_object = findSong(uid)
-    if song_object:
-        # read the song file and create a dictionary
-        song = parseSong(song_object)
-        song["uid"] = uid
-        return render_template("song.html", song = song)
-    else:
-        # create a new song file
-        createNewSong(uid)
-        return redirect(url_for("index"))
+def showSong(uid):
+    return render_template("song.html", song = getSong(uid))
 
 @app.route("/edit/<uid>")
 def edit(uid):
-    song = parseSong(findSong(uid))
-    song["uid"] = uid
+    song = getSong(uid)
     return render_template("song_attributes.html",
             song = song)
 

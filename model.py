@@ -3,8 +3,7 @@ from os import (path, system, listdir)
 def buildSonglist():
     songlist = []
     for song_file in listdir("songs"):
-        if path.isfile(path.join("songs", song_file)):
-            songlist.append(_getSongData(song_file))
+        songlist.append(_getSongData(song_file))
     songlist = _filterScaryChars(songlist)
     songlist.sort(key = lambda v: v["uid"])
     return songlist
@@ -28,28 +27,22 @@ def _filterScaryChars(songlist):
         el["uid"] = el["uid"].replace("&-", "")
     return songlist
 
-def findSong(uid):
-    song_path = "songs/" + uid
-    if not path.isfile(song_path):
-        return False
-    else:
-        return _readSong(song_path)
-
-def _readSong(path):
-    with open(path) as f:
-        return f.read()
-
-def parseSong(songObject):
-    items = songObject.split("\n\n")
-    song = dict()
+def getSong(uid):
+    with open("songs/" + uid) as songfile:
+        song_raw = songfile.read()
+    items = song_raw.split("\n\n")
+    song = dict(uid = uid)
     song["title"] = items.pop(0)
     song["artist"] = items.pop(0)
     song["metadata"] = dict()
-    # metadata_lines = items.pop(0).split("\n")
     for line in items.pop(0).split("\n"):
         pair = line.split(": ")
         song["metadata"][pair[0]] = pair[1]
-    song["chords_lyrics"] = items
+    song["music_lyrics_list"] = items
+    song["music_lyrics_string"] = ""
+    for el in items:
+        song["music_lyrics_string"] += el + "\n\n"
+    song["music_lyrics_string"] = song["music_lyrics_string"][:-3]
     return song
 
 def createNewSong(song_object):
@@ -59,7 +52,7 @@ def createNewSong(song_object):
     return
 
 def backUpSong(uid):
-    system("mv songs/" + uid + " songs/backup/" + uid)
+    system("mv songs/" + uid + " song_backups/" + uid)
     return
 
 def createSongData(dict):
@@ -68,4 +61,5 @@ def createSongData(dict):
     song_data += "Key: " + dict["Key"] + "\n"
     song_data += "Capo: " + dict["Capo"] + "\n\n"
     song_data += dict["music_lyrics"]
+    print(dict["music_lyrics"])
     return song_data
