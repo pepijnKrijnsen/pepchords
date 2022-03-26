@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block body %}
+<a href="{{ url_for("index") }}">
+    <div id="header">
+        <h1>Log practice</h1>
+    </div>
+</a>
+
+<!-- fields:
+    Type of practice (dropdown)
+    Start time (time)
+    End time (time) -->
+
+<div id="practice_attributes">
+    <form action="{{ url_for("savePracticeLog") }}" method="POST">
+        <label for="type">Type of practice:</label><br />
+        <select name="type" id="type">
+            {% for type in practice_types %}
+            <option value="{{ type }}">{{ type }}</option>
+            {% endfor %}
+        </select><br />
+        <label for="start">Start time:</label><br />
+        <input type="time" id="start" name="start"><br />
+        <label for="end">End time:</label><br />
+        <input type="time" id="end" name="end"><br />
+        <input type="submit" value="Save">
+    </form>
+</div>
+{% endblock %}

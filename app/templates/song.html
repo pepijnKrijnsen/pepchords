@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+<a href="{{ url_for("index") }}"><div id="data">
+    <h2>{{ song["title"] }}</h2>
+    <h3>{{ song["artist"] }}</h3>
+
+    <div id="meta">
+        {% for k in song["metadata"] %}
+        <h4>{{ k }}: {{ song["metadata"][k] }}</h4>
+        {% endfor %}
+    </div>
+</div></a>
+<div id="edit_song">
+    <a href="{{ url_for("edit", uid = song["uid"]) }}">edit</a>
+</div>
+
+<div id="song">
+    {% for el in song["music_lyrics_list"] %}
+    <pre>{{ el }}</pre>
+    {% endfor %}
+</div>
+
+<script src="{{ url_for("static", filename="zoomer.js") }}"></script>
+{% endblock %}

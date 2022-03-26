@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block body %}
+<a href="{{ url_for("index") }}">
+    <div id="header">
+        <h1>Add a new song</h1>
+    </div>
+</a>
+
+<!-- fields:
+    Title
+    Artist
+    Key (ssl: 'chords')
+    Capo -->
+<div id="new_song_attributes">
+    <form action="{{ url_for("saveNewSong") }}" method="POST">
+        <label for="title">Title:</label><br />
+        <input type="text" id="title" name="title"><br />
+        <label for="artist">Artist:</label><br />
+        <input type="text" id="artist" name="artist"><br />
+        <label for="key">Key:</label><br />
+        <input type="text" id="key" name="key"><br />
+        <label for="capo">Capo:</label><br />
+        <input type="text" id="capo" name="capo"><br />
+        <label for="music_and_lyrics">Song file:</label><br />
+        <input type="file" id="music_and_lyrics" name="music_and_lyrics"><br />
+        <input type="submit" value="Save">
+    </form>
+</div>
+{% endblock %}
