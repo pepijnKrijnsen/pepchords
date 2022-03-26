@@ -1,6 +1,7 @@
 env/
 __pycache__/
 songs/
+song_backups/
 persistence/
 
 *csv

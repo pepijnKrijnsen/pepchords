@@ -58,8 +58,8 @@ def backUpSong(uid):
 def createSongData(dict):
     song_data = dict["title"] + "\n\n"
     song_data += dict["artist"] + "\n\n"
+    song_data += dict["music_lyrics"]
     song_data += "Key: " + dict["Key"] + "\n"
     song_data += "Capo: " + dict["Capo"] + "\n\n"
-    song_data += dict["music_lyrics"]
     print(dict["music_lyrics"])
     return song_data

@@ -1,11 +1,13 @@
 html {
     width: 100%;
     overflow: hidden;
+    margin: 0;
     padding: 0;
 }
 
 body {
     position: relative;
+    margin: 0;
     padding: 0;
     color: white;
     background-color: #254525;
@@ -126,7 +128,7 @@ body {
     overflow: hidden;
     margin: 0 auto;
     padding: 0.5vh 12px;
-    background-color: #fa0;
+    background-color: #8f8;
 }
 
 #data h2, #data h3, #data h4 {
@@ -199,7 +201,7 @@ form {
 }
 
 form label {
-    width: 96px;
+    margin-right: 24px;
 }
 
 form input {
@@ -210,8 +212,13 @@ form input {
     font-family: calibri, sans-serif;
 }
 
+#form-meta label {
+    font-size: 16px;
+}
+
 #form-meta input {
     width: 96px;
+    font-size: 16px;
 }
 
 form textarea {

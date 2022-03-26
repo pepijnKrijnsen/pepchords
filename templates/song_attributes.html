@@ -21,6 +21,7 @@
             <input type="text" id="artist" name="artist"
               value="{{ song["artist"] }}">
         </div>
+        <textarea id="music_lyrics" name="music_lyrics">{{song["music_lyrics_string"]}}</textarea><br />
         <div id="form-meta">
             {% for key in song["metadata"] %}
                 <label for="{{ key }}">{{ key }}</label>
@@ -28,7 +29,6 @@
                         value="{{ song["metadata"][key] }}">
             {% endfor %}
         </div>
-        <textarea id="music_lyrics" name="music_lyrics">{{song["music_lyrics_string"]}}</textarea><br />
         <input type="submit" value="Save">
     </form>
 {% endblock %}
