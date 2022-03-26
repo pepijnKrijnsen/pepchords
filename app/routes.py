@@ -10,6 +10,15 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", songlist = model.buildSonglist())
 
+@app.route("/new")
+def addSong():
+    return render_template("new_song.html")
+
+@app.route("/save", methods = ["POST", ])
+def saveSong():
+    model.createSongObject(request.form)
+    return redirect(url_for("index"))
+
 @app.route("/play/<uid>")
 def showSong(uid):
     song = model.displaySong(uid)
@@ -17,8 +26,8 @@ def showSong(uid):
 
 @app.route("/edit/<uid>")
 def edit(uid):
-    song = editSong(uid)
-    return render_template("song_attributes.html",
+    song = model.editSong(uid)
+    return render_template("edit_song.html",
             song = song)
 
 @app.route("/save/<uid>", methods = ["POST", ])
@@ -35,10 +44,6 @@ def saveEditsToSong(uid):
     with open("songs/" + uid, "w") as song_file:
         song_file.write(new_file_contents)
     return redirect(url_for("index"))
-
-@app.route("/song/new")
-def addNewSong():
-    return render_template("song_attributes.html")
 
 @app.route("/song/save", methods = ["POST", ])
 def saveNewSong():

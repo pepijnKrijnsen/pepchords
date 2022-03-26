@@ -1,6 +1,7 @@
 env/
 __pycache__/
 songs/
+songs_old/
 song_backups/
 persistence/
 
