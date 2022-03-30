@@ -1,3 +1,9 @@
+def readSongFile_toLines(uid):
+    path = "songs/" + uid
+    with open(path) as songfile:
+        song_lines = songfile.readlines()
+    return song_lines
+
 def readSongFile(uid):
     path = "songs/" + uid
     with open(path) as songfile:

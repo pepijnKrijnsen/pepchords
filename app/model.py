@@ -3,38 +3,27 @@ from os import (path, system, listdir)
 import persistence
 
 def buildSonglist():
-    songlist = []
-    for song_file in listdir("songs"):
-        songlist.append(_getSongData(song_file))
+    songlist = [ _getSongData(song_file) for song_file in listdir("songs") ]
     songlist.sort(key = lambda v: v["uid"])
     return songlist
 
-def _getSongData(name):
+def _getSongData(uid):
+    song_lines = persistence.readSongFile_toLines(uid)
     song_data = dict()
-    path = "songs/" + name
-    with open(path) as song_file:
-        song = song_file.readlines()
-    song_data["title"] = song[0]
-    song_data["artist"] = song[2]
-    song_data["uid"] = name
+    song_data["title"] = song_lines[0]
+    song_data["artist"] = song_lines[2]
+    song_data["uid"] = uid
     return song_data
 
 def createSongObject(dict):
-    # keys in dict:
-    # - title (required)
-    # - artist (required)
-    # - music_lyrics (optional)
-    # - metadata: key, capo, tempo (optional)
     song_uid = _createSongUID(dict["title"], dict["artist"])
-    song_data_string = _unpackSongData(dict)
+    song_data_string = _convertNewSongForm_toString(dict)
     persistence.writeSongFile(song_uid, song_data_string)
     return
 
 def _createSongUID(title, artist):
-    safe_artist = artist.lower().replace(" ", "-")
-    safe_artist = _filterScaryChars(safe_artist)
-    safe_title = title.lower().replace(" ", "-")
-    safe_title = _filterScaryChars(safe_title)
+    safe_artist = _filterScaryChars(artist.lower().replace(" ", "-"))
+    safe_title = _filterScaryChars(title.lower().replace(" ", "-"))
     return safe_artist + "-" + safe_title
 
 def _filterScaryChars(string):
@@ -45,7 +34,7 @@ def _filterScaryChars(string):
     string = string.replace("&-", "")
     return string
 
-def _unpackSongData(dict):
+def _convertNewSongForm_toString(dict):
     song_data = dict["title"] + "\n\n"
     song_data += dict["artist"] + "\n\n"
     song_data += "capo: " + dict["capo"] + "\n"
@@ -57,11 +46,11 @@ def _unpackSongData(dict):
 
 def displaySong(uid):
     song_raw = persistence.readSongFile(uid)
-    song = _songRawToDict(song_raw)
-    song["uid"] = uid
-    return song
+    song_object = _convertSongString_toDict(song_raw)
+    song_object["uid"] = uid
+    return song_object
 
-def _songRawToDict(song_raw):
+def _convertSongString_toDict(song_raw):
     items = song_raw.split("\n\n")
     song = dict()
     song["title"] = items.pop(0)
@@ -70,18 +59,33 @@ def _songRawToDict(song_raw):
     for line in items.pop(0).split("\n"):
         pair = line.split(": ")
         song["metadata"][pair[0]] = pair[1]
-    song["fontsize"] = items.pop(0).split(": ")[1]
+    song["fontsize"] = float(items.pop(0).split(": ")[1])
     song["music_lyrics"] = items
     return song
 
+def editSong(uid):
+    song_raw = persistence.readSongFile(uid)
+    song_object = _convertSongString_toDict(song_raw)
+    song_object["uid"] = uid
+    song_object["music_lyrics_string"] = _convertList_toString(
+            song_object["music_lyrics"])
+    return song_object
+
+def _convertList_toString(list):
+    string = ""
+    for el in list:
+        string += el + "\n\n"
+    string = string[:-2]
+    return string
+
 def updateFontSize(uid, change):
-    song = _songRawToDict(persistence.readSongFile(uid))
-    song["fontsize"] = str(float(song["fontsize"]) + (change / 2))
-    song_string = _songDictToRaw(song)
+    song_object = _convertSongString_toDict(persistence.readSongFile(uid))
+    song_object["fontsize"] = str(song_object["fontsize"] + (change / 2))
+    song_string = _convertSongDict_toString(song_object)
     persistence.writeSongFile(uid, song_string)
     return
 
-def _songDictToRaw(song_object):
+def _convertSongDict_toString(song_object):
     song_data = song_object["title"] + "\n\n"
     song_data += song_object["artist"] + "\n\n"
     song_data += "capo: " + song_object["metadata"]["capo"] + "\n"
@@ -92,13 +96,3 @@ def _songDictToRaw(song_object):
         song_data += el + "\n\n"
     song_data = song_data[:-2]
     return song_data
-
-def editSong(uid):
-    song_raw = persistence.readSongFile(uid)
-    song = _songRawToDict(song_raw)
-    song["uid"] = uid
-    song["music_lyrics_string"] = ""
-    for el in song["music_lyrics"]:
-        song["music_lyrics_string"] += el + "\n\n"
-    song["music_lyrics_string"] = song["music_lyrics_string"][:-2]
-    return song

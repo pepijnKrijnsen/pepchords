@@ -10,32 +10,32 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", songlist = model.buildSonglist())
 
-@app.route("/new")
+@app.route("/song/new")
 def addSong():
     return render_template("new_song.html")
 
-@app.route("/save", methods = ["POST", ])
+@app.route("/song/save", methods = ["POST", ])
 def saveSong():
     if not request.form["title"] or not request.form["artist"]:
         return redirect(url_for("addSong"))
     model.createSongObject(request.form)
     return redirect(url_for("index"))
 
-@app.route("/play/<uid>")
+@app.route("/song/play/<uid>")
 def showSong(uid):
     song = model.displaySong(uid)
     return render_template("song.html", song = song)
+
+@app.route("/song/edit/<uid>")
+def edit(uid):
+    song = model.editSong(uid)
+    return render_template("edit_song.html", song = song)
 
 @app.route("/zoom/save/<uid>")
 def saveZoomLevel(uid):
     if request.args.get("fontchange"):
         model.updateFontSize(uid, int(request.args.get("fontchange")))
     return redirect(url_for("index"))
-
-@app.route("/edit/<uid>")
-def edit(uid):
-    song = model.editSong(uid)
-    return render_template("edit_song.html", song = song)
 
 @app.route("/practice")
 def logPractice():
@@ -46,11 +46,3 @@ def logPractice():
 def savePracticeLog():
     # persistence!
     return redirect(url_for("index"))
-
-
-def newSongToCsv():
-    pass
-
-def getPracticeTypes():
-    types = [ "", "stream", "repetition", "new song" ]
-    return types
