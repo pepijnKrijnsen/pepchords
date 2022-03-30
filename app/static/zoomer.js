@@ -1,20 +1,24 @@
 const el = document.getElementById("song");
+var change = 0;
 
 window.addEventListener("keydown", function(pressed) {
-	var currentSize = getCurrSize(el)
 	if (pressed.key === "z") {
+		var currentSize = getCurrSize(el);
 		increaseFont(currentSize);
 	} else if (pressed.key === "Z") {
+		var currentSize = getCurrSize(el);
 		decreaseFont(currentSize);
 	};
 }, true);
 
 function increaseFont(size) {
-	el.style.fontSize = parseFloat(size) + (1/2) + "px";
+	el.style.fontSize = size + (1/2) + "px";
+	change++
 };
 
 function decreaseFont(size) {
-	el.style.fontSize = parseFloat(size) - (1/2) + "px";
+	el.style.fontSize = size - (1/2) + "px";
+	change--
 };
 
 function getCurrSize(el) {

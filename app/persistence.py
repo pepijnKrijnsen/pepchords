@@ -9,3 +9,7 @@ def writeSongFile(uid, content):
     with open(path, "w") as songfile:
         songfile.write(content)
     return
+
+def backUpSong(uid):
+    system("mv songs/" + uid + " song_backups/" + uid)
+    return

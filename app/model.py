@@ -51,6 +51,7 @@ def _unpackSongData(dict):
     song_data += "capo: " + dict["capo"] + "\n"
     song_data += "key: " + dict["key"] + "\n"
     song_data += "tempo: " + dict["tempo"] + "\n\n"
+    song_data += "font size: 16" + "\n\n"
     song_data += dict["music_lyrics"]
     return song_data
 
@@ -69,6 +70,7 @@ def _songRawToDict(song_raw):
     for line in items.pop(0).split("\n"):
         pair = line.split(": ")
         song["metadata"][pair[0]] = pair[1]
+    song["fontsize"] = items.pop(0).split(": ")[1]
     song["music_lyrics"] = items
     return song
 
@@ -80,24 +82,4 @@ def editSong(uid):
     for el in song["music_lyrics"]:
         song["music_lyrics_string"] += el + "\n\n"
     song["music_lyrics_string"] = song["music_lyrics_string"][:-2]
-    print(song["metadata"])
     return song
-
-def createNewSong(song_object):
-    with open(song_object, "w") as f:
-        f.write("Title\n\nArtist\n\nKey: ")
-    system("$EDITOR " + songObject + " &")
-    return
-
-def backUpSong(uid):
-    system("mv songs/" + uid + " song_backups/" + uid)
-    return
-
-def createSongData(dict):
-    song_data = dict["title"] + "\n\n"
-    song_data += dict["artist"] + "\n\n"
-    song_data += dict["music_lyrics"]
-    song_data += "Key: " + dict["Key"] + "\n"
-    song_data += "Capo: " + dict["Capo"] + "\n\n"
-    print(dict["music_lyrics"])
-    return song_data

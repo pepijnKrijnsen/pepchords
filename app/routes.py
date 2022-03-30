@@ -26,6 +26,10 @@ def showSong(uid):
     song = model.displaySong(uid)
     return render_template("song.html", song = song)
 
+@app.route("/zoom/<int>")
+def saveZoomLevel(change):
+    pass
+
 @app.route("/edit/<uid>")
 def edit(uid):
     song = model.editSong(uid)
