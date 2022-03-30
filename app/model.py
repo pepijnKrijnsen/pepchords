@@ -26,8 +26,8 @@ def createSongObject(dict):
     # - music_lyrics (optional)
     # - metadata: key, capo, tempo (optional)
     song_uid = _createSongUID(dict["title"], dict["artist"])
-    song_data = _unpackSongData(dict)
-    persistence.writeSongFile(song_uid, song_data)
+    song_data_string = _unpackSongData(dict)
+    persistence.writeSongFile(song_uid, song_data_string)
     return
 
 def _createSongUID(title, artist):
@@ -73,6 +73,25 @@ def _songRawToDict(song_raw):
     song["fontsize"] = items.pop(0).split(": ")[1]
     song["music_lyrics"] = items
     return song
+
+def updateFontSize(uid, change):
+    song = _songRawToDict(persistence.readSongFile(uid))
+    song["fontsize"] = str(float(song["fontsize"]) + (change / 2))
+    song_string = _songDictToRaw(song)
+    persistence.writeSongFile(uid, song_string)
+    return
+
+def _songDictToRaw(song_object):
+    song_data = song_object["title"] + "\n\n"
+    song_data += song_object["artist"] + "\n\n"
+    song_data += "capo: " + song_object["metadata"]["capo"] + "\n"
+    song_data += "key: " + song_object["metadata"]["key"] + "\n"
+    song_data += "tempo: " + song_object["metadata"]["tempo"] + "\n\n"
+    song_data += "font size: " + song_object["fontsize"] + "\n\n"
+    for el in song_object["music_lyrics"]:
+        song_data += el + "\n\n"
+    song_data = song_data[:-2]
+    return song_data
 
 def editSong(uid):
     song_raw = persistence.readSongFile(uid)

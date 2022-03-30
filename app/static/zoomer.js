@@ -27,3 +27,11 @@ function getCurrSize(el) {
 	let size = sizeWithUnit.slice(0, -2);
 	return parseFloat(size);
 };
+
+function checkForFontChange() {
+    if (change != 0) {
+        var anchor = document.getElementById("to_songlist");
+        var current_href = anchor.getAttribute("href");
+        anchor.setAttribute("href", current_href + "?fontchange=" + change);
+    }
+};

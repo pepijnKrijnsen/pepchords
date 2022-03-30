@@ -26,9 +26,11 @@ def showSong(uid):
     song = model.displaySong(uid)
     return render_template("song.html", song = song)
 
-@app.route("/zoom/<int>")
-def saveZoomLevel(change):
-    pass
+@app.route("/zoom/save/<uid>")
+def saveZoomLevel(uid):
+    if request.args.get("fontchange"):
+        model.updateFontSize(uid, int(request.args.get("fontchange")))
+    return redirect(url_for("index"))
 
 @app.route("/edit/<uid>")
 def edit(uid):

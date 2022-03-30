@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block body %}
-<a href="{{ url_for("index") }}"><div id="data">
+<a id="to_songlist" href="{{ url_for("saveZoomLevel", uid = song["uid"]) }}"
+    onclick="checkForFontChange()"><div id="data">
     <h2>{{ song["title"] }}</h2>
     <h3>{{ song["artist"] }}</h3>
 
@@ -9,14 +10,13 @@
         {% for k in song["metadata"] %}
         <h4>{{ k }}: {{ song["metadata"][k] }}</h4>
         {% endfor %}
-        <h4>Font size: {{ song["fontsize"] }}</h4>
     </div>
 </div></a>
 <div id="edit_song">
     <a href="{{ url_for("edit", uid = song["uid"]) }}">edit</a>
 </div>
 
-<div id="song">
+<div id="song" style="font-size: {{ song["fontsize"] }}px">
     {% for el in song["music_lyrics"] %}
     <pre>{{ el }}</pre>
     {% endfor %}
