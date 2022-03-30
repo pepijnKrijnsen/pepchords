@@ -25,8 +25,6 @@ def createSongObject(dict):
     # - artist (required)
     # - music_lyrics (optional)
     # - metadata: key, capo, tempo (optional)
-    if not "title" in dict or not "artist" in dict:
-        return redirect(url_for("addSong"))
     song_uid = _createSongUID(dict["title"], dict["artist"])
     song_data = _unpackSongData(dict)
     persistence.writeSongFile(song_uid, song_data)
@@ -47,12 +45,12 @@ def _filterScaryChars(string):
     string = string.replace("&-", "")
     return string
 
-def _unpackSongForm(dict):
+def _unpackSongData(dict):
     song_data = dict["title"] + "\n\n"
     song_data += dict["artist"] + "\n\n"
-    song_data += "Capo: " + dict["capo"] + "\n"
-    song_data += "Key: " + dict["key"] + "\n"
-    song_data += "Tempo: " + dict["tempo"] + "\n\n"
+    song_data += "capo: " + dict["capo"] + "\n"
+    song_data += "key: " + dict["key"] + "\n"
+    song_data += "tempo: " + dict["tempo"] + "\n\n"
     song_data += dict["music_lyrics"]
     return song_data
 
@@ -82,6 +80,7 @@ def editSong(uid):
     for el in song["music_lyrics"]:
         song["music_lyrics_string"] += el + "\n\n"
     song["music_lyrics_string"] = song["music_lyrics_string"][:-2]
+    print(song["metadata"])
     return song
 
 def createNewSong(song_object):

@@ -12,7 +12,7 @@
         </div>
     </div></a>
 
-    <form action="{{ url_for("saveEditsToSong", uid = song["uid"]) }}" method="POST">
+    <form action="{{ url_for("saveSong") }}" method="POST">
         <div id="form-ta">
             <label for="title">Title</label>
             <input type="text" id="title" name="title"
@@ -23,11 +23,15 @@
         </div>
         <textarea id="music_lyrics" name="music_lyrics">{{song["music_lyrics_string"]}}</textarea><br />
         <div id="form-meta">
-            {% for key in song["metadata"] %}
-                <label for="{{ key }}">{{ key }}</label>
-                <input type="text" id="{{ key }}" name="{{ key }}"
-                        value="{{ song["metadata"][key] }}">
-            {% endfor %}
+            <label for="capo">Capo:</label>
+            <input type="text" id="capo" name="capo"
+              value="{{ song["metadata"]["capo"] }}">
+            <label for="key">Key:</label>
+            <input type="text" id="key" name="key"
+              value="{{ song["metadata"]["key"] }}">
+            <label for="tempo">Tempo:</label>
+            <input type="text" id="tempo" name="tempo"
+              value="{{ song["metadata"]["tempo"] }}">
         </div>
         <input type="submit" value="Save">
     </form>

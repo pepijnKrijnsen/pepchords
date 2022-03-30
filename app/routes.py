@@ -16,6 +16,8 @@ def addSong():
 
 @app.route("/save", methods = ["POST", ])
 def saveSong():
+    if not request.form["title"] or not request.form["artist"]:
+        return redirect(url_for("addSong"))
     model.createSongObject(request.form)
     return redirect(url_for("index"))
 
@@ -27,30 +29,7 @@ def showSong(uid):
 @app.route("/edit/<uid>")
 def edit(uid):
     song = model.editSong(uid)
-    return render_template("edit_song.html",
-            song = song)
-
-@app.route("/save/<uid>", methods = ["POST", ])
-def saveEditsToSong(uid):
-    # move the song file from "songs/<uid>" to "songs/backup/<uid>"
-    backUpSong(uid)
-    # write a new file "songs/<uid>" with the contents of:
-    #  - title
-    #  - artist
-    #  - Key
-    #  - Capo
-    #  - music_lyrics
-    new_file_contents = createSongData(request.form)
-    with open("songs/" + uid, "w") as song_file:
-        song_file.write(new_file_contents)
-    return redirect(url_for("index"))
-
-@app.route("/song/save", methods = ["POST", ])
-def saveNewSong():
-    line = request.form["title"] + "," + request.form["artist"] + ",,,,,," + request.form["key"] + "," + request.form["capo"] + ",,0,false" + "\n"
-    with open("newsongs.csv", "a") as f:
-        f.write(line)
-    return redirect(url_for("index"))
+    return render_template("edit_song.html", song = song)
 
 @app.route("/practice")
 def logPractice():
