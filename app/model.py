@@ -15,7 +15,15 @@ def _getSongData(uid):
     song_data["uid"] = uid
     return song_data
 
-def createSongObject(dict):
+def checkForArtistAndTitle(dict):
+    message = ""
+    if not dict["title"]:
+        message = "Title is required"
+    elif not dict["artist"]:
+        message = "Artist is required"
+    return message
+
+def createAndPersistSongStrings(dict):
     song_uid = _createSongUID(dict["title"], dict["artist"])
     song_data_string = _convertNewSongForm_toString(dict)
     persistence.writeSongFile(song_uid, song_data_string)
@@ -44,7 +52,7 @@ def _convertNewSongForm_toString(dict):
     song_data += dict["music_lyrics"]
     return song_data
 
-def displaySong(uid):
+def getSongObject(uid):
     song_raw = persistence.readSongFile(uid)
     song_object = _convertSongString_toDict(song_raw)
     song_object["uid"] = uid

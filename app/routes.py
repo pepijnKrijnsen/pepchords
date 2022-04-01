@@ -10,26 +10,35 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", songlist = model.buildSonglist())
 
-@app.route("/song/new")
+@app.route("/song/new", methods = ["GET", "POST"])
 def addSong():
-    return render_template("new_song.html")
-
-@app.route("/song/save", methods = ["POST", ])
-def saveSong():
-    if not request.form["title"] or not request.form["artist"]:
-        return redirect(url_for("addSong"))
-    model.createSongObject(request.form)
-    return redirect(url_for("index"))
+    if request.method == "GET":
+        return render_template("new_song.html")
+    else:
+        error = model.checkForArtistAndTitle(request.form)
+        if not error:
+            model.createAndPersistSongStrings(request.form)
+            return redirect(url_for("index"))
+        else:
+            flash(error)
 
 @app.route("/song/play/<uid>")
 def showSong(uid):
-    song = model.displaySong(uid)
+    song = model.getSongObject(uid)
     return render_template("song.html", song = song)
 
-@app.route("/song/edit/<uid>")
-def edit(uid):
+@app.route("/song/edit/<uid>", methods = ["GET", "POST"])
+def editSong(uid):
     song = model.editSong(uid)
-    return render_template("edit_song.html", song = song)
+    if request.method == "GET":
+        return render_template("edit_song.html", song = song)
+    else:
+        error = model.checkForArtistAndTitle(request.form)
+        if not error:
+            model.createAndPersistSongStrings(request.form)
+            return redirect(url_for("showSong", uid = song["uid"]))
+        else:
+            flash(error)
 
 @app.route("/zoom/save/<uid>")
 def saveZoomLevel(uid):
