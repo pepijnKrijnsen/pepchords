@@ -16,6 +16,7 @@ def addSong():
     if request.method == "GET":
         return render_template("new_song.html")
     else:
+        error = None
         error = model.checkForArtistAndTitle(request.form)
         if not error:
             model.createAndPersistSongString(request.form)
@@ -35,12 +36,14 @@ def editSong(uid):
     if request.method == "GET":
         return render_template("edit_song.html", song = song)
     else:
+        error = None
         error = model.checkForArtistAndTitle(request.form)
         if not error:
             model.createAndPersistSongStrings(request.form)
             return redirect(url_for("showSong", uid = song["uid"]))
         else:
             flash(error)
+            return render_template("edit_song.html", song = song)
 
 @app.route("/zoom/save/<uid>")
 def saveZoomLevel(uid):

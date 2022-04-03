@@ -18,9 +18,9 @@ def _getSongData(uid):
 def checkForArtistAndTitle(dict):
     message = ""
     if not dict["title"]:
-        message = "Title is required"
+        message = "Title is required!"
     elif not dict["artist"]:
-        message = "Artist is required"
+        message = "Artist is required!"
     return message
 
 def createAndPersistSongStrings(dict):
