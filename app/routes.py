@@ -1,10 +1,11 @@
 from flask import (
-        Flask, render_template, redirect, url_for, request
+        Flask, render_template, request, redirect, url_for, flash
         )
 
 import model
 
 app = Flask(__name__)
+app.secret_key = "super-secret"
 
 @app.route("/")
 def index():
@@ -17,10 +18,11 @@ def addSong():
     else:
         error = model.checkForArtistAndTitle(request.form)
         if not error:
-            model.createAndPersistSongStrings(request.form)
+            model.createAndPersistSongString(request.form)
             return redirect(url_for("index"))
         else:
             flash(error)
+            return render_template("new_song.html")
 
 @app.route("/song/play/<uid>")
 def showSong(uid):
