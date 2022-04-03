@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <a href="{{ url_for("index") }}"><div id="data">
+    <a href="{{ url_for("showSong", uid = song["uid"]) }}"><div id="data">
         <h2>{{ song["title"] }}</h2>
         <h3>{{ song["artist"] }}</h3>
 
