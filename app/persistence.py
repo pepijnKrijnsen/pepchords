@@ -21,5 +21,5 @@ def backUpSong(uid):
     return
 
 def readSecretKeyFile():
-    with open("secret-key") as s:
+    with open("secret_key") as s:
         return s.read()
