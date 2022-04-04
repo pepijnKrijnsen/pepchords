@@ -5,5 +5,6 @@ songs_old/
 songs_new/
 song_backups/
 persistence/
+secret_key
 
 *csv

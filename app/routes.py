@@ -5,7 +5,7 @@ from flask import (
 import model
 
 app = Flask(__name__)
-app.secret_key = "super-secret"
+app.secret_key = model.getSecret()
 
 @app.route("/")
 def index():

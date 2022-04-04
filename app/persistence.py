@@ -19,3 +19,7 @@ def writeSongFile(uid, content):
 def backUpSong(uid):
     system("mv songs/" + uid + " song_backups/" + uid)
     return
+
+def readSecretKeyFile():
+    with open("secret-key") as s:
+        return s.read()

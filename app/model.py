@@ -2,6 +2,10 @@ from os import (path, system, listdir)
 
 import persistence
 
+def getSecret():
+    secret = persistence.readSecretKeyFile()
+    return secret
+
 def buildSonglist():
     songlist = [ _getSongData(song_file) for song_file in listdir("songs") ]
     songlist.sort(key = lambda v: v["uid"])
