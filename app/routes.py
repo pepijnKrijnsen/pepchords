@@ -39,7 +39,7 @@ def editSong(uid):
         error = None
         error = model.checkForArtistAndTitle(request.form)
         if not error:
-            model.createAndPersistSongStrings(request.form)
+            model.createAndPersistSongString(request.form)
             return redirect(url_for("showSong", uid = song["uid"]))
         else:
             flash(error)

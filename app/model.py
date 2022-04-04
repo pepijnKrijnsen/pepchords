@@ -23,7 +23,7 @@ def checkForArtistAndTitle(dict):
         message = "Artist is required!"
     return message
 
-def createAndPersistSongStrings(dict):
+def createAndPersistSongString(dict):
     song_uid = _createSongUID(dict["title"], dict["artist"])
     song_data_string = _convertNewSongForm_toString(dict)
     persistence.writeSongFile(song_uid, song_data_string)
